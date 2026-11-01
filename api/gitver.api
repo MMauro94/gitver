@@ -1,0 +1,73 @@
+public class dev/mmauro/gitver/DefaultGitVerExtension : dev/mmauro/gitver/GitVerExtension {
+	public fun <init> (Lorg/gradle/api/provider/ProviderFactory;Lorg/gradle/api/model/ObjectFactory;)V
+	public fun getCommitsSinceLastTaggedVersion ()Lorg/gradle/api/provider/Provider;
+	public fun getCurrentVersion ()Lorg/gradle/api/provider/Provider;
+	public fun getLastTaggedVersion ()Lorg/gradle/api/provider/Provider;
+	public fun getSnapshotIncrement ()Lorg/gradle/api/provider/Property;
+	public fun getTaggedVersions ()Lorg/gradle/api/provider/Provider;
+}
+
+public final class dev/mmauro/gitver/GitCommit : java/io/Serializable {
+	public static final field Companion Ldev/mmauro/gitver/GitCommit$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/time/Instant;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Lkotlin/time/Instant;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/time/Instant;)Ldev/mmauro/gitver/GitCommit;
+	public static synthetic fun copy$default (Ldev/mmauro/gitver/GitCommit;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/time/Instant;ILjava/lang/Object;)Ldev/mmauro/gitver/GitCommit;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAuthor ()Ljava/lang/String;
+	public final fun getBody ()Ljava/lang/String;
+	public final fun getHash ()Ljava/lang/String;
+	public final fun getShortHash ()Ljava/lang/String;
+	public final fun getSubject ()Ljava/lang/String;
+	public final fun getTimestamp ()Lkotlin/time/Instant;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/mmauro/gitver/GitCommit$Companion {
+}
+
+public abstract interface class dev/mmauro/gitver/GitVerExtension {
+	public abstract fun getCommitsSinceLastTaggedVersion ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getCurrentVersion ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getLastTaggedVersion ()Lorg/gradle/api/provider/Provider;
+	public abstract fun getSnapshotIncrement ()Lorg/gradle/api/provider/Property;
+	public abstract fun getTaggedVersions ()Lorg/gradle/api/provider/Provider;
+}
+
+public final class dev/mmauro/gitver/GitVerExtensionKt {
+	public static final fun set (Lorg/gradle/api/provider/Property;Lio/github/z4kn4fein/semver/Inc;)V
+}
+
+public final class dev/mmauro/gitver/GitVerPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract interface class dev/mmauro/gitver/SnapshotIncrementCalculator : java/io/Serializable {
+	public static final field Companion Ldev/mmauro/gitver/SnapshotIncrementCalculator$Companion;
+	public abstract fun calculate (Lio/github/z4kn4fein/semver/Version;Ljava/util/List;Z)Lio/github/z4kn4fein/semver/Inc;
+}
+
+public final class dev/mmauro/gitver/SnapshotIncrementCalculator$Companion {
+	public final fun getDEFAULT ()Ldev/mmauro/gitver/SnapshotIncrementCalculator;
+}
+
+public final class dev/mmauro/gitver/TagUtilsKt {
+	public static final fun latestRelease (Ljava/util/Collection;)Lio/github/z4kn4fein/semver/Version;
+	public static final fun latestReleaseNull (Ljava/util/Collection;)Lio/github/z4kn4fein/semver/Version;
+}
+
+public abstract class dev/mmauro/gitver/tasks/PrintVersionTask : org/gradle/api/DefaultTask {
+	public fun <init> ()V
+	public abstract fun getMissingVersionMessage ()Lorg/gradle/api/provider/Property;
+	public abstract fun getVersion ()Lorg/gradle/api/provider/Property;
+	public final fun printVersion ()V
+}
+
