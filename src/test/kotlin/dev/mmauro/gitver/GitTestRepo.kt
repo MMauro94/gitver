@@ -78,6 +78,10 @@ class GitTestRepo(val dir: Path) : AutoCloseable {
         cmd("tag", name)
     }
 
+    fun annotatedTag(name: String, message: String) {
+        cmd("tag", "-a", name, "-m", message)
+    }
+
     @OptIn(ExperimentalPathApi::class)
     override fun close() {
         dir.deleteRecursively()

@@ -21,7 +21,7 @@ public open class DefaultGitVerExtension @Inject constructor(
      * Map of commit ID => list of tagged versions for this commit
      */
     private val commitToVersions: Provider<Map<String, List<Version>>> = providers
-        .exec { it.commandLine("git", "tag", "--format", "%(objectname) %(refname:short)", "--list", VERSION_FILTER) }
+        .exec { it.commandLine("git", "tag", "--format", "%(*objectname) %(refname:short)", "--list", VERSION_FILTER) }
         .standardOutput
         .asText
         .map { stdout ->

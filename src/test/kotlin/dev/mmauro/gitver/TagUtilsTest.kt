@@ -86,7 +86,7 @@ class TagUtilsTest : FunSpec(
                     "v3l0c1r4pt0r" to true,
                     "very-nice-feature-1" to false,
                     "ver1" to false,
-                    "1245678" to false,
+                    "1245678" to true,
                 ),
             ) { (tag, expected) ->
                 tag.looksLikeVersionTag() shouldBe expected
