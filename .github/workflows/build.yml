@@ -89,3 +89,11 @@ jobs:
       - name: Run unit tests tests
         run: ./gradlew test --scan
 
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kotest-html-report
+          path: build/reports/tests/test/
+          if-no-files-found: warn
+          retention-days: 14
