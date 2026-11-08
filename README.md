@@ -3,7 +3,6 @@
 [![GitHub License](https://img.shields.io/github/license/MMauro94/gitver)](https://github.com/MMauro94/gitver/blob/main/LICENSE)
 [![Kotlin](https://img.shields.io/badge/kotlin-2.4.20-blue?logo=kotlin)](http://kotlinlang.org)
 [![Maven Central Version](https://img.shields.io/maven-central/v/dev.mmauro/gitver)](https://central.sonatype.com/artifact/dev.mmauro/gitver)
-![Maven Central Snapshot Version](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fcentral.sonatype.com%2Frepository%2Fmaven-snapshots%2Fdev%2Fmmauro%2Fgitver%2Fmaven-metadata.xml&strategy=latestProperty&label=maven-central-snapshot)
 
 A tiny and lightweight Gradle plugin for GIT tags-based semantic versioning.
 
@@ -20,6 +19,16 @@ repository GIT tags.
 
 ## Quick start
 
+In your `settings.gradle.kts` add:
+```kotlin
+pluginManagement {
+    repositories {
+        mavenCentral()
+    }
+}
+```
+
+In your `build.gradle.kts`:
 ```kotlin
 plugins {
     id("dev.mmauro.gitver") version "..."
@@ -27,6 +36,35 @@ plugins {
 
 version = gitver.currentVersion.get()
 ```
+
+See latest version in badge above or look directly
+at [Maven Central page](https://central.sonatype.com/artifact/dev.mmauro/gitver).
+
+This library uses [semantic versioning](https://semver.org/).
+
+<details>
+
+<summary>Using the SNAPSHOT build</summary>
+
+![Maven Central Snapshot Version](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fcentral.sonatype.com%2Frepository%2Fmaven-snapshots%2Fdev%2Fmmauro%2Fgitver%2Fmaven-metadata.xml&strategy=latestProperty&label=maven-central-snapshot)
+
+Snapshot builds are published on every commit in `main`.
+
+To use, add in your `settings.gradle.kts`:
+
+```kotlin
+pluginManagement {
+    repositories {
+        maven("https://central.sonatype.com/repository/maven-snapshots")
+    }
+}
+```
+
+See latest version in badge above or look
+at [maven-metadata.xml](https://central.sonatype.com/repository/maven-snapshots/dev/mmauro/gitver/maven-metadata.xml).
+
+</details>
+
 
 ## Overview
 
