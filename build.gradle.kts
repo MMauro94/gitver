@@ -5,11 +5,11 @@ plugins {
     id("java-gradle-plugin")
     alias(libs.plugins.ktlint)
     alias(libs.plugins.mavenPublish)
+    id("dev.mmauro.gitver") version "0.1.0-SNAPSHOT"
 }
 
 group = "dev.mmauro"
-// Boostrapping issue: for now, we hard-code the SNAPSHOT version until the library is published and we can use ourselves
-version = "0.1-SNAPSHOT"
+version = gitver.currentVersion.get()
 
 repositories {
     mavenCentral()
