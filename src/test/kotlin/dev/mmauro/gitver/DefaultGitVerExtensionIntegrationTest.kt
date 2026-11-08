@@ -21,7 +21,7 @@ private const val INVALID_VERSION_TAG = "v1.invalid"
 
 class DefaultGitVerExtensionIntegrationTest : FunSpec(
     {
-        xcontext("every provider fails if the directory is not GIT-initialized") {
+        context("every provider fails if the directory is not GIT-initialized") {
             val extension = tempdir().gitVerExtension()
 
             test("lastTaggedVersion") {
@@ -46,7 +46,7 @@ class DefaultGitVerExtensionIntegrationTest : FunSpec(
             }
         }
 
-        xcontext("GIT repo with no commits (fresh init, no HEAD)") {
+        context("GIT repo with no commits (fresh init, no HEAD)") {
             val extension = gitRepo().gitVerExtension()
 
             test("lastTaggedVersion is not present") {
@@ -63,7 +63,7 @@ class DefaultGitVerExtensionIntegrationTest : FunSpec(
             }
         }
 
-        xcontext("GIT repo with commits but no tags") {
+        context("GIT repo with commits but no tags") {
             val repo = gitRepo {
                 commit("A")
                 commit("B")
@@ -87,7 +87,7 @@ class DefaultGitVerExtensionIntegrationTest : FunSpec(
             }
         }
 
-        xcontext("when HEAD is pointing at a commit with a tagged version") {
+        context("when HEAD is pointing at a commit with a tagged version") {
             val repo = gitRepo {
                 commit("A")
                 val b = commit("B")
@@ -129,7 +129,7 @@ class DefaultGitVerExtensionIntegrationTest : FunSpec(
             }
         }
 
-        xcontext("when HEAD is pointing at a commit with NO tagged version") {
+        context("when HEAD is pointing at a commit with NO tagged version") {
             val repo = gitRepo()
             repo.commit("A")
             val b = repo.commit("B")
@@ -204,7 +204,7 @@ class DefaultGitVerExtensionIntegrationTest : FunSpec(
             }
         }
 
-        xcontext("every provider fails when the repo contains invalid tags, even if unreachable from HEAD") {
+        context("every provider fails when the repo contains invalid tags, even if unreachable from HEAD") {
             val repo = gitRepo {
                 commit("A")
                 val b = commit("B")
@@ -243,7 +243,7 @@ class DefaultGitVerExtensionIntegrationTest : FunSpec(
             }
         }
 
-        xcontext("when the repo contains tags that start with v but are not versions") {
+        context("when the repo contains tags that start with v but are not versions") {
             val repo = gitRepo {
                 commit("A")
                 val b = commit("B")
@@ -280,7 +280,7 @@ class DefaultGitVerExtensionIntegrationTest : FunSpec(
             }
         }
 
-        xcontext("if a commit has multiple version tags associated to it") {
+        context("if a commit has multiple version tags associated to it") {
             val repo = gitRepo {
                 commit("A")
                 tag("v1.0.2")
