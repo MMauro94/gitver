@@ -21,7 +21,9 @@ public open class DefaultGitVerExtension @Inject constructor(
      * Map of commit ID => list of tagged versions for this commit
      */
     private val commitToVersions: Provider<Map<String, List<Version>>> = providers
-        .exec { it.commandLine("git", "tag", "--format", "%(*objectname) %(refname:short)", "--list", VERSION_FILTER) }
+        // %(objectname) is the commit hash for lightweight tags, but the tag hash for annotated ones
+        // %(*objectname) is the commit hash for annotated/signed tags, but it's empty for lightweight tags
+        .exec { it.commandLine("git", "tag", "--format", "%(objectname) %(*objectname) %(refname:short)", "--list", VERSION_FILTER) }
         .standardOutput
         .asText
         .map { stdout ->
@@ -30,11 +32,11 @@ public open class DefaultGitVerExtension @Inject constructor(
                 .reversed()
                 .asSequence()
                 .filter { it.isNotEmpty() }
-                .map { it.split(" ", limit = 2) }
-                .filter { (_, tag) -> tag.looksLikeVersionTag() }
+                .map { it.split(' ', limit = 3) }
+                .filter { (_, _, tag) -> tag.looksLikeVersionTag() }
                 .groupBy(
-                    keySelector = { (hash) -> hash },
-                    valueTransform = { (_, tag) -> Version.fromTag(tag) },
+                    keySelector = { (hash, peeledHash) -> peeledHash.takeIf { it.isNotBlank() } ?: hash },
+                    valueTransform = { (_, _, tag) -> Version.fromTag(tag) },
                 )
         }
 

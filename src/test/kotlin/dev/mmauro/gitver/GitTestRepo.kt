@@ -1,6 +1,8 @@
 package dev.mmauro.gitver
 
+import io.kotest.assertions.withClue
 import io.kotest.core.TestConfiguration
+import io.kotest.matchers.shouldBe
 import org.gradle.testfixtures.ProjectBuilder
 import java.io.File
 import java.nio.file.Path
@@ -27,6 +29,9 @@ class GitTestRepo(val dir: Path) : AutoCloseable {
             .start()
             .also {
                 it.waitFor(10, TimeUnit.SECONDS)
+                withClue("git command exited OK") {
+                    it.exitValue() shouldBe 0
+                }
             }
             .inputReader()
             .readText()
