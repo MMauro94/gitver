@@ -5,7 +5,7 @@ on:
       - main
   release:
     types: [ released, prereleased ]
-  workflow_dispatch: 
+  workflow_dispatch:
 
 jobs:
   test:
