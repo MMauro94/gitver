@@ -29,7 +29,7 @@ class GitTestRepo(val dir: Path) : AutoCloseable {
             .start()
             .also {
                 it.waitFor(10, TimeUnit.SECONDS)
-                withClue("git command exited OK") {
+                withClue("git command exited OK, stderr: ${it.errorReader().readText()}") {
                     it.exitValue() shouldBe 0
                 }
             }
