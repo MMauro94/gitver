@@ -13,6 +13,13 @@ import kotlin.time.Duration.Companion.seconds
 
 private val DATE_LEEWAY = 5.seconds
 
+private val GIT_CONFIG = GitConfig(
+    userName = "Mario",
+    userEmail = "mario@example.com",
+    authorName = "Luigi",
+    authorEmail = "luigi@example.com",
+)
+
 class GitCommitIntegrationTest : FunSpec(
     {
         test("parse works as expected") {
@@ -27,13 +34,9 @@ class GitCommitIntegrationTest : FunSpec(
                 Bye 👋
                 
             """.trimIndent()
-            val repo = gitRepo {
+            val repo = gitRepo(GIT_CONFIG) {
                 commit(
                     message = firstCommitBody.trimIndent(),
-                    userName = "Mario",
-                    userEmail = "mario@example.com",
-                    authorName = "Luigi",
-                    authorEmail = "luigi@example.com",
                 )
 
                 commit("second commit")

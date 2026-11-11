@@ -20,11 +20,33 @@ import kotlin.uuid.Uuid
 private const val GRADLE_HOME_DIR = ".gradle"
 private const val MAIN_BRANCH = "main"
 
-class GitTestRepo(val dir: Path) : AutoCloseable {
+data class GitConfig(
+    val userName: String = "John Doe",
+    val userEmail: String = "john.doe@example.com",
+    val authorName: String = "Jane Doe",
+    val authorEmail: String = "jane.doe@example.org",
+)
+
+class GitTestRepo(
+    val dir: Path,
+    val config: GitConfig = GitConfig(),
+) : AutoCloseable {
 
     fun cmd(vararg args: String): String {
         return ProcessBuilder()
-            .command("git", *args)
+            .command(
+                "git",
+                // author/committer config
+                "-c",
+                "user.name=${config.userName}",
+                "-c",
+                "user.email=${config.userEmail}",
+                "-c",
+                "author.name=${config.authorName}",
+                "-c",
+                "author.email=${config.authorEmail}",
+                *args,
+            )
             .directory(dir.toFile())
             .start()
             .also {
@@ -41,35 +63,14 @@ class GitTestRepo(val dir: Path) : AutoCloseable {
      * Adds a random file and commits it
      */
     @OptIn(ExperimentalUuidApi::class)
-    fun commit(
-        message: String,
-        userName: String = "John Doe",
-        userEmail: String = "john.doe@example.com",
-        authorName: String = "Jane Doe",
-        authorEmail: String = "jane.doe@example.org",
-    ): String {
+    fun commit(message: String): String {
         val uuid = Uuid.generateV4()
         val file = dir / uuid.toHexDashString()
         file.createFile()
         file.writeText(uuid.toHexString())
 
         cmd("add", file.name)
-        cmd(
-            // author/committer confif
-            "-c",
-            "user.name=$userName",
-            "-c",
-            "user.email=$userEmail",
-            "-c",
-            "author.name=$authorName",
-            "-c",
-            "author.email=$authorEmail",
-
-            // commit command
-            "commit",
-            "-m",
-            message,
-        )
+        cmd("commit", "-m", message)
 
         return cmd("rev-parse", "HEAD").trim()
     }
@@ -114,9 +115,9 @@ class GitTestRepo(val dir: Path) : AutoCloseable {
     }
 
     companion object {
-        fun create(init: GitTestRepo.() -> Unit = {}): GitTestRepo {
+        fun create(gitConfig: GitConfig = GitConfig(), init: GitTestRepo.() -> Unit = {}): GitTestRepo {
             val dir = createTempDirectory()
-            return GitTestRepo(dir).also {
+            return GitTestRepo(dir, gitConfig).also {
                 it.cmd("init", "-b", MAIN_BRANCH)
                 (dir / ".git" / "info" / "exclude").writeText(GRADLE_HOME_DIR)
 
@@ -126,8 +127,8 @@ class GitTestRepo(val dir: Path) : AutoCloseable {
     }
 }
 
-fun TestConfiguration.gitRepo(init: GitTestRepo.() -> Unit = {}): GitTestRepo {
-    return autoClose(GitTestRepo.create(init))
+fun TestConfiguration.gitRepo(gitConfig: GitConfig = GitConfig(), init: GitTestRepo.() -> Unit = {}): GitTestRepo {
+    return autoClose(GitTestRepo.create(gitConfig, init))
 }
 
 fun File.gitVerExtension(): DefaultGitVerExtension {
