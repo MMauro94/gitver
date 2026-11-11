@@ -41,14 +41,35 @@ class GitTestRepo(val dir: Path) : AutoCloseable {
      * Adds a random file and commits it
      */
     @OptIn(ExperimentalUuidApi::class)
-    fun commit(message: String): String {
+    fun commit(
+        message: String,
+        userName: String = "John Doe",
+        userEmail: String = "john.doe@example.com",
+        authorName: String = "Jane Doe",
+        authorEmail: String = "jane.doe@example.org",
+    ): String {
         val uuid = Uuid.generateV4()
         val file = dir / uuid.toHexDashString()
         file.createFile()
         file.writeText(uuid.toHexString())
 
         cmd("add", file.name)
-        cmd("commit", "-m", message)
+        cmd(
+            // author/committer confif
+            "-c",
+            "user.name=$userName",
+            "-c",
+            "user.email=$userEmail",
+            "-c",
+            "author.name=$authorName",
+            "-c",
+            "author.email=$authorEmail",
+
+            // commit command
+            "commit",
+            "-m",
+            message,
+        )
 
         return cmd("rev-parse", "HEAD").trim()
     }
