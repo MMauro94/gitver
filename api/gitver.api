@@ -9,27 +9,42 @@ public class dev/mmauro/gitver/DefaultGitVerExtension : dev/mmauro/gitver/GitVer
 
 public final class dev/mmauro/gitver/GitCommit : java/io/Serializable {
 	public static final field Companion Ldev/mmauro/gitver/GitCommit$Companion;
-	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/time/Instant;)V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ldev/mmauro/gitver/GitCommit$PersonInfo;Ldev/mmauro/gitver/GitCommit$PersonInfo;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Ljava/lang/String;
 	public final fun component3 ()Ljava/lang/String;
 	public final fun component4 ()Ljava/lang/String;
-	public final fun component5 ()Ljava/lang/String;
-	public final fun component6 ()Lkotlin/time/Instant;
-	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/time/Instant;)Ldev/mmauro/gitver/GitCommit;
-	public static synthetic fun copy$default (Ldev/mmauro/gitver/GitCommit;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lkotlin/time/Instant;ILjava/lang/Object;)Ldev/mmauro/gitver/GitCommit;
+	public final fun component5 ()Ldev/mmauro/gitver/GitCommit$PersonInfo;
+	public final fun component6 ()Ldev/mmauro/gitver/GitCommit$PersonInfo;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ldev/mmauro/gitver/GitCommit$PersonInfo;Ldev/mmauro/gitver/GitCommit$PersonInfo;)Ldev/mmauro/gitver/GitCommit;
+	public static synthetic fun copy$default (Ldev/mmauro/gitver/GitCommit;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ldev/mmauro/gitver/GitCommit$PersonInfo;Ldev/mmauro/gitver/GitCommit$PersonInfo;ILjava/lang/Object;)Ldev/mmauro/gitver/GitCommit;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun getAuthor ()Ljava/lang/String;
+	public final fun getAuthor ()Ldev/mmauro/gitver/GitCommit$PersonInfo;
 	public final fun getBody ()Ljava/lang/String;
+	public final fun getCommitter ()Ldev/mmauro/gitver/GitCommit$PersonInfo;
 	public final fun getHash ()Ljava/lang/String;
 	public final fun getShortHash ()Ljava/lang/String;
 	public final fun getSubject ()Ljava/lang/String;
-	public final fun getTimestamp ()Lkotlin/time/Instant;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class dev/mmauro/gitver/GitCommit$Companion {
+}
+
+public final class dev/mmauro/gitver/GitCommit$PersonInfo {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Lkotlin/time/Instant;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Lkotlin/time/Instant;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Lkotlin/time/Instant;)Ldev/mmauro/gitver/GitCommit$PersonInfo;
+	public static synthetic fun copy$default (Ldev/mmauro/gitver/GitCommit$PersonInfo;Ljava/lang/String;Ljava/lang/String;Lkotlin/time/Instant;ILjava/lang/Object;)Ldev/mmauro/gitver/GitCommit$PersonInfo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDate ()Lkotlin/time/Instant;
+	public final fun getEmail ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public abstract interface class dev/mmauro/gitver/GitVerExtension {
