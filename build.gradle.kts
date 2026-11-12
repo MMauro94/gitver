@@ -5,7 +5,7 @@ plugins {
     id("java-gradle-plugin")
     alias(libs.plugins.ktlint)
     alias(libs.plugins.mavenPublish)
-    id("dev.mmauro.gitver") version "0.1.0-SNAPSHOT"
+    id("dev.mmauro.gitver") version "0.1.0"
 }
 
 group = "dev.mmauro"
