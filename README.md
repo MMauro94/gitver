@@ -20,6 +20,7 @@ repository GIT tags.
 ## Quick start
 
 In your `settings.gradle.kts` add:
+
 ```kotlin
 pluginManagement {
     repositories {
@@ -29,6 +30,7 @@ pluginManagement {
 ```
 
 In your `build.gradle.kts`:
+
 ```kotlin
 plugins {
     id("dev.mmauro.gitver") version "..."
@@ -65,7 +67,6 @@ at [maven-metadata.xml](https://central.sonatype.com/repository/maven-snapshots/
 
 </details>
 
-
 ## Overview
 
 Imagine your GIT repository is in the following state:
@@ -89,11 +90,17 @@ gitGraph
 
 Based on where `HEAD` points to, the plugin will provide the following values:
 
-| What                            | `HEAD` @ `B`      | `HEAD` @ `D` | `HEAD` @ `E`      | `HEAD` @ `H` | `HEAD` @ `G`      |
-|---------------------------------|-------------------|--------------|-------------------|--------------|-------------------|
-| `currentVersion`                | `0.1.0-SNAPSHOT`¹ | `1.1.0`      | `1.0.1-SNAPSHOT`¹ | `2.0.0`      | `1.1.1-SNAPSHOT`¹ |
-| `lastTaggedVersion`             | _N/A_             | `1.1.0`      | `1.0.0`           | `2.0.0`      | `1.1.0`           |
-| `commitsSinceLastTaggedVersion` | `[A]`             | `[]`         | `[]`              | `[]`         | `[F, G]`          |
+| What                            | `HEAD` @ `B`      | `HEAD` @ `D` | `HEAD` @ `E`      |
+|---------------------------------|-------------------|--------------|-------------------|
+| `currentVersion`                | `0.1.0-SNAPSHOT`¹ | `1.1.0`      | `1.0.1-SNAPSHOT`¹ |
+| `lastTaggedVersion`             | _N/A_             | `1.1.0`      | `1.0.0`           |
+| `commitsSinceLastTaggedVersion` | `[A]`             | `[]`         | `[]`              |
+
+| What                            | `HEAD` @ `H` | `HEAD` @ `H` (with uncommitted changes) | `HEAD` @ `G`      |
+|---------------------------------|--------------|-----------------------------------------|-------------------|
+| `currentVersion`                | `2.0.0`      | `2.0.1-SNAPSHOT`¹                       | `1.1.1-SNAPSHOT`¹ |
+| `lastTaggedVersion`             | `2.0.0`      | `2.0.0`                                 | `1.1.0`           |
+| `commitsSinceLastTaggedVersion` | `[]`         | `[]`                                    | `[F, G]`          |
 
 ¹ increment strategy configurable (see below)
 
