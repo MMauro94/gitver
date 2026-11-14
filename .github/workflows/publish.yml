@@ -8,24 +8,16 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
+  build:
     uses: ./.github/workflows/build.yml
 
   publish:
     name: Publish
-    needs: test
+    needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 21
+      - name: Setup project
+        uses: $/.github/actions/setup
 
       - name: Publish to MavenCentral
         run: ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache
