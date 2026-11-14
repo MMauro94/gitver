@@ -16,26 +16,28 @@ public class GitVerPlugin : Plugin<Project> {
             project.providers,
         )
 
-        project.registerPrintVersionTask(
-            name = "printCurrentVersion",
-            description = "Prints the current GIT-derived version.",
-            version = extension.currentVersion,
-        )
-        project.registerPrintVersionTask(
-            name = "printLatestReleaseVersion",
-            description = """
-                Prints the latest repository-wide GIT-derived release version, if such version exists.
-                A release version excludes any pre-release such as -alpha, -beta, -rc.1, and so on, but includes major versions equal to 0.
-            """.trimIndent(),
-            version = extension.taggedVersions.map { it.latestReleaseNull() },
-            missingVersionMessage = "No release version found in the repository",
-        )
-        project.registerPrintVersionTask(
-            name = "printLastTaggedVersion",
-            description = "Prints the last tagged GIT-derived version on this branch, if such version exists",
-            version = extension.lastTaggedVersion,
-            missingVersionMessage = "No tagged version found in the current branch",
-        )
+        if (project == project.rootProject) {
+            project.registerPrintVersionTask(
+                name = "printCurrentVersion",
+                description = "Prints the current GIT-derived version.",
+                version = extension.currentVersion,
+            )
+            project.registerPrintVersionTask(
+                name = "printLatestReleaseVersion",
+                description = """
+                    Prints the latest repository-wide GIT-derived release version, if such version exists.
+                    A release version excludes any pre-release such as -alpha, -beta, -rc.1, and so on, but includes major versions equal to 0.
+                """.trimIndent(),
+                version = extension.taggedVersions.map { it.latestReleaseNull() },
+                missingVersionMessage = "No release version found in the repository",
+            )
+            project.registerPrintVersionTask(
+                name = "printLastTaggedVersion",
+                description = "Prints the last tagged GIT-derived version on this branch, if such version exists",
+                version = extension.lastTaggedVersion,
+                missingVersionMessage = "No tagged version found in the current branch",
+            )
+        }
     }
 
     private fun Project.registerPrintVersionTask(
