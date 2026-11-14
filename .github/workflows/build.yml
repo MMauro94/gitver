@@ -9,87 +9,38 @@ permissions:
   contents: read
 
 jobs:
-  verify-abi:
-    name: "Verify ABI"
+  abi:
+    name: "Check ABI"
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-
-      - name: setup-java
-        uses: actions/setup-java@v5
-        with:
-          java-version: 21
-          distribution: temurin
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v6
-
-      - name: Gradle Wrapper Validation
-        uses: gradle/actions/wrapper-validation@v6
+      - name: Setup project
+        uses: $/.github/actions/setup
 
       - name: Binary Compatibility Validation
         run: ./gradlew checkKotlinAbi --scan
 
-  verify-ktlint:
+  ktlint:
     name: "Run Ktlint"
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-
-      - name: setup-java
-        uses: actions/setup-java@v5
-        with:
-          java-version: 21
-          distribution: temurin
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v6
-
-      - name: Gradle Wrapper Validation
-        uses: gradle/actions/wrapper-validation@v6
+      - name: Setup project
+        uses: $/.github/actions/setup
 
       - name: Run Ktlint
         run: ./gradlew ktlintCheck --scan
 
   test:
     runs-on: "ubuntu-latest"
-    name: Unit tests
-    needs: [verify-abi, verify-ktlint]
+    name: Run unit tests
+    needs: [abi, ktlint]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-
-      - name: Check Git
-        run: git --version
-
-      - name: Cache Konan
-        uses: actions/cache@v5
-        with:
-          path: |
-            ~/.konan
-          key: ${{ runner.os }}-${{ hashFiles('**/.lock') }}
-
-      - name: Set up JDK
-        uses: actions/setup-java@v5
-        with:
-          java-version: 21
-          distribution: temurin
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v6
+      - name: Setup project
+        uses: $/.github/actions/setup
 
       - name: Run unit tests tests
         run: ./gradlew test --scan
 
-      - name: Upload test reports
+      - name: Upload HTML test report
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -97,3 +48,11 @@ jobs:
           path: build/reports/tests/test/
           if-no-files-found: warn
           retention-days: 14
+
+      - name: Test Report
+        uses: dorny/test-reporter@v3
+        if: always()
+        with:
+          name: Kotest Results
+          path: '**/build/test-results/test/*.xml'
+          reporter: java-junit
